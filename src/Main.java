@@ -3,7 +3,17 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        int op = Menu();
+        Boolean fim = false;
+
+        while (!fim){
+            int op = Menu();
+
+            switch (op){
+                case 5:
+                    fim = true;
+                break;
+            }
+        }
     }
 
     static int Menu (){
@@ -16,7 +26,9 @@ public class Main {
         System.out.println("5 - Sair");
         int op = 0;
         try {
-            op = sc.nextInt();
+            do {
+                op = sc.nextInt();
+            }while (op < 1 || op > 5);
         }catch (Exception e){
             System.out.println("Você deve escolher uma das opções do menu");
         }
