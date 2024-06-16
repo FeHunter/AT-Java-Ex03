@@ -22,6 +22,9 @@ public class Main {
                 case 2:
                     alterarSaldo(contas);
                     break;
+                case 3:
+                    excluirConta(contas);
+                    break;
                 case 4:
                     mostrarContas(contas);
                     break;
@@ -148,18 +151,7 @@ public class Main {
 
     static  void alterarSaldo (List<Conta> contas){
         Scanner sc = new Scanner(System.in);
-        int id = 0;
-        // Ler id da conta e verificar se a conta existe.
-        do {
-            try{
-                System.out.println("Digite o ID de uma conta existente");
-                System.out.print("ID: ");
-                id = sc.nextInt();
-            }catch (Exception e){
-                System.out.println("Você deve inserir um número valido para o ID da conta.");
-                break;
-            }
-        }while (!verificarCotaExistente(contas, id));
+        int id = lerID(contas);
 
         // Verificar tipo de operação
         int op = 0;
@@ -223,5 +215,47 @@ public class Main {
             }
         }
         return existe;
+    }
+
+    static void excluirConta (List<Conta> contas){
+        System.out.println("Digite o ID da conta a ser excluida:");
+        System.out.print("ID: ");
+        int id = lerID(contas);
+
+        // encontrar conta pelo ID
+        Conta conta = encontrarConta(contas, id);
+        if (conta == null){
+            System.out.println("ID da conta não localizado, verifique e tente novamente");
+        }else {
+            contas.remove(conta);
+            System.out.println("A conta de ID " + id + " foi removida.");
+        }
+    }
+
+    static Conta encontrarConta (List<Conta> contas, int id){
+        Conta conta = null;
+        for (int i=0; i < contas.size(); i++){
+            if (contas.get(i).getID() == id){
+                conta = contas.get(i);
+            }
+        }
+        return conta;
+    }
+
+    static int lerID (List<Conta> contas){
+        Scanner sc = new Scanner(System.in);
+        int id = 0;
+        // Ler id da conta e verificar se a conta existe.
+        do {
+            try{
+                System.out.println("Digite o ID de uma conta existente");
+                System.out.print("ID: ");
+                id = sc.nextInt();
+            }catch (Exception e){
+                System.out.println("Você deve inserir um número valido para o ID da conta.");
+                break;
+            }
+        }while (!verificarCotaExistente(contas, id));
+        return  id;
     }
 }
