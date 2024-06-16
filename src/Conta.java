@@ -22,7 +22,11 @@ public class Conta {
     }
 
     public void setSaldo(double saldo) {
-        this.saldo = saldo;
+        if (saldo > 0){
+            this.saldo = saldo;
+        }else {
+            this.saldo = 0;
+        }
     }
 
     public Conta (int id, String nome, double saldo){

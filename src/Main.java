@@ -181,26 +181,24 @@ public class Main {
         }while (valor < 0);
         // procua pela conta atraves do ID e atualizar o saldo, somente se o saldo for maior que zero.
         if (valor != -1){
-            for (int i=0; i < contas.size(); i++){
-                if (contas.get(i).getID() == id){
-                    // Deposito
-                    if (op == 1){
-                        if (valor > 0){
-                            double novoSaldo = contas.get(i).getSaldo() + valor;
-                            contas.get(i).setSaldo(novoSaldo);
-                        }else {
-                            System.out.println("Não é possivel depositar $0, tente novamente.");
-                        }
-                    }
-                    // Saque
-                    if (op == 2) {
-                        if (contas.get(i).getSaldo() >= valor){
-                            double novoSaldo = contas.get(i).getSaldo() - valor;
-                            contas.get(i).setSaldo(novoSaldo);
-                        }else {
-                            System.out.println("Saldo insuficiente");
-                        }
-                    }
+            // Encontra a conta e guarda em uma variavel
+            Conta conta = encontrarConta(contas, id);
+            // Deposito
+            if (op == 1){
+                if (valor > 0){
+                    double novoSaldo = conta.getSaldo() + valor;
+                    conta.setSaldo(novoSaldo);
+                }else {
+                    System.out.println("Não é possivel depositar $0, tente novamente.");
+                }
+            }
+            // Saque
+            if (op == 2) {
+                if (conta.getSaldo() >= valor){
+                    double novoSaldo = conta.getSaldo() - valor;
+                    conta.setSaldo(novoSaldo);
+                }else {
+                    System.out.println("Saldo insuficiente");
                 }
             }
         }
@@ -226,9 +224,11 @@ public class Main {
         Conta conta = encontrarConta(contas, id);
         if (conta == null){
             System.out.println("ID da conta não localizado, verifique e tente novamente");
-        }else {
+        }else if (conta.getSaldo() == 0){
             contas.remove(conta);
             System.out.println("A conta de ID " + id + " foi removida.");
+        }else {
+            System.out.println("A conta de ID " + id + " não pode ser removida, o saldo deve esta zerado.");
         }
     }
 
