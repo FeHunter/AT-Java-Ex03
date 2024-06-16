@@ -152,7 +152,7 @@ public class Main {
         int op = 0;
         try {
             do {
-                System.out.println("1 - Depositar\n2 - Sacar");
+                System.out.println("Escolha a operação: \n1 - Depositar\n2 - Sacar");
                 op = sc.nextInt();
             }while (op < 1 || op > 2);
         }catch (Exception e){
@@ -163,7 +163,7 @@ public class Main {
         // Ler id da conta e verificar se a conta existe.
         do {
             try{
-                System.out.println("Para alterar o saldo digite o ID de conta existente");
+                System.out.println("Digite o ID de uma conta existente");
                 System.out.print("ID: ");
                 id = sc.nextInt();
             }catch (Exception e){
@@ -173,7 +173,7 @@ public class Main {
         }while (!verificarCotaExistente(contas, id));
 
         // Fazer alteração
-        System.out.print("Digite o novo saldo: ");
+        System.out.print("Digite o valor: ");
         double valor = -1;
         do {
             // Empedir saldo negativo.
@@ -188,10 +188,13 @@ public class Main {
         if (valor != -1){
             for (int i=0; i < contas.size(); i++){
                 if (contas.get(i).getID() == id){
+                    // Deposito
                     if (op == 1){
                         double novoSaldo = contas.get(i).getSaldo() + valor;
                         contas.get(i).setSaldo(novoSaldo);
-                    }else {
+                    }
+                    // Saque
+                    else {
                         double novoSaldo = contas.get(i).getSaldo() - valor;
                         contas.get(i).setSaldo(novoSaldo);
                     }
