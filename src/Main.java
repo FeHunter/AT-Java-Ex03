@@ -148,6 +148,17 @@ public class Main {
 
     static  void alterarSaldo (List<Conta> contas){
         Scanner sc = new Scanner(System.in);
+        // Verificar tipo de operação
+        int op = 0;
+        try {
+            do {
+                System.out.println("1 - Depositar\n2 - Sacar");
+                op = sc.nextInt();
+            }while (op < 1 || op > 2);
+        }catch (Exception e){
+            System.out.println("Entrada invalida, você deve escolher entre as opções 1 e 2");
+            return;
+        }
         int id = 0;
         // Ler id da conta e verificar se a conta existe.
         do {
@@ -163,21 +174,27 @@ public class Main {
 
         // Fazer alteração
         System.out.print("Digite o novo saldo: ");
-        double novoSaldo = -1;
+        double valor = -1;
         do {
             // Empedir saldo negativo.
             try {
-                novoSaldo = sc.nextDouble();
+                valor = sc.nextDouble();
             }catch (Exception e){
                 System.out.println("Você deve digitar o saldo em um formato valido");
                 break;
             }
-        }while (novoSaldo < 0);
+        }while (valor < 0);
         // procua pela conta atraves do ID e atualizar o saldo, somente se o saldo for maior que zero.
-        if (novoSaldo != -1){
+        if (valor != -1){
             for (int i=0; i < contas.size(); i++){
                 if (contas.get(i).getID() == id){
-                    contas.get(i).setSaldo(novoSaldo);
+                    if (op == 1){
+                        double novoSaldo = contas.get(i).getSaldo() + valor;
+                        contas.get(i).setSaldo(novoSaldo);
+                    }else {
+                        double novoSaldo = contas.get(i).getSaldo() - valor;
+                        contas.get(i).setSaldo(novoSaldo);
+                    }
                 }
             }
         }
