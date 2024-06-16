@@ -13,10 +13,26 @@ public class Conta {
         return saldo;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
     public Conta (int id, String nome, double saldo){
         this.id = id;
         this.nome = nome;
         this.saldo = saldo;
     }
 
+    @Override
+    public String toString() {
+        return "\nConta ID: " + id + ", Nome: " + nome + ", Saldo: $" + saldo;
+    }
 }
