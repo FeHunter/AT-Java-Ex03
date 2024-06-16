@@ -34,7 +34,7 @@ public class Conta {
 
     @Override
     public String toString() {
-        return "\nConta ID: " + id + ", Nome: " + nome + ", Saldo: $" + saldo;
+        return "Conta ID: " + id + ", Nome: " + nome + ", Saldo: $" + saldo;
     }
 
     public String formatarParaSalvarConta (){
