@@ -19,6 +19,9 @@ public class Main {
                 case 1:
                     adicionarConta(contas);
                     break;
+                case 2:
+                    alterarSaldo(contas);
+                    break;
                 case 4:
                     mostrarContas(contas);
                     break;
@@ -89,7 +92,7 @@ public class Main {
                 saldo = sc.nextDouble();
             }catch (Exception e){
                 System.out.println("Você deve digitar o saldo em um formato valido");
-                saldo = sc.nextDouble();
+                break;
             }
         }while (saldo < 0);
 
@@ -130,5 +133,53 @@ public class Main {
         for (Conta conta : contas){
             System.out.println(conta.toString());
         }
+    }
+
+    static  void alterarSaldo (List<Conta> contas){
+        Scanner sc = new Scanner(System.in);
+        int id = 0;
+        // Ler id da conta e verificar se a conta existe.
+        do {
+            try{
+                System.out.println("Para alterar o saldo digite o ID de conta existente");
+                System.out.print("ID: ");
+                id = sc.nextInt();
+            }catch (Exception e){
+                System.out.println("Você deve inserir um número valido para o ID da conta.");
+                break;
+            }
+        }while (!verificarCotaExistente(contas, id));
+
+        // Fazer alteração
+        System.out.print("Digite o novo saldo: ");
+        double novoSaldo = 0;
+        do {
+            // Empedir saldo negativo.
+            try {
+                novoSaldo = sc.nextDouble();
+            }catch (Exception e){
+                System.out.println("Você deve digitar o saldo em um formato valido");
+                break;
+            }
+        }while (novoSaldo < 0);
+        // procua pela conta atraves do ID e atualizar o saldo, somente se o saldo for maior que zero.
+        if (novoSaldo != 0){
+            for (int i=0; i < contas.size(); i++){
+                if (contas.get(i).getID() == id){
+                    contas.get(i).setSaldo(novoSaldo);
+                }
+            }
+        }
+    }
+
+    static boolean verificarCotaExistente (List<Conta> contas,int id){
+        boolean existe = false;
+        for (int i=0; i < contas.size(); i++){
+            if(contas.get(i).getID() == id){
+                existe = true;
+                break;
+            }
+        }
+        return existe;
     }
 }

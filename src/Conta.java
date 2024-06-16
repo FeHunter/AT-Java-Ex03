@@ -30,6 +30,7 @@ public class Conta {
         this.nome = nome;
         this.saldo = saldo;
     }
+    public Conta (){}
 
     @Override
     public String toString() {
