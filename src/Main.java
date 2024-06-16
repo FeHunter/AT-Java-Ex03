@@ -76,8 +76,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.println("\nAdicionar Conta:");
 
-        System.out.print("ID: ");
-        int id = sc.nextInt();
+        int id = verificarIdExistente(contas);
 
         System.out.print("Nome: ");
         String nome = sc.next();
@@ -95,6 +94,24 @@ public class Main {
         }while (saldo < 0);
 
         contas.add( new Conta(id, nome, saldo) );
+    }
+
+    static int verificarIdExistente (List<Conta> contas){
+        Scanner sc = new Scanner(System.in);
+        int id;
+        boolean igual;
+        do {
+            igual = false;
+            System.out.print("ID:");
+            id = sc.nextInt();
+            for (int i =0; i < contas.size(); i++){
+                if (contas.get(i).getID() == id){
+                    System.out.println("Id já existente");
+                    igual = true;
+                }
+            }
+        }while (id < 0 || igual);
+        return  id;
     }
 
     static void salvarDadosNoArquivo (String arquivo, List<Conta> contas){
