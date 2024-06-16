@@ -16,11 +16,16 @@ public class Main {
             int op = menu();
 
             switch (op){
+                case 1:
+                    adicionarConta(contas);
+                    break;
                 case 4:
                     mostrarContas(contas);
                     break;
                 case 5:
+                    // Finalizar e salva as contas no arquivo
                     fim = true;
+                    salvarDadosNoArquivo(ARQUIVO, contas);
                     break;
             }
         }
@@ -32,7 +37,7 @@ public class Main {
         System.out.println("1 - Incluir Conta");
         System.out.println("2 - Alterar Saldo");
         System.out.println("3 - Excluir Conta");
-        System.out.println("4 - Consultar Conta");
+        System.out.println("4 - Consultar Contas");
         System.out.println("5 - Sair");
         int op = 0;
         try {
@@ -67,11 +72,36 @@ public class Main {
         return adicionarContas;
     }
 
+    static  void adicionarConta (List<Conta> contas){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\nAdicionar Conta:");
+
+        System.out.print("ID: ");
+        int id = sc.nextInt();
+
+        System.out.print("Nome: ");
+        String nome = sc.next();
+
+        double saldo = 0;
+        do {
+            // Empedir saldo negativo.
+            System.out.print("Saldo: ");
+            try {
+                saldo = sc.nextDouble();
+            }catch (Exception e){
+                System.out.println("Você deve digitar o saldo em um formato valido");
+                saldo = sc.nextDouble();
+            }
+        }while (saldo < 0);
+
+        contas.add( new Conta(id, nome, saldo) );
+    }
+
     static void salvarDadosNoArquivo (String arquivo, List<Conta> contas){
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo));
             for (Conta conta : contas){
-                bw.write(conta.toString() + "\n");
+                bw.write(conta.formatarParaSalvarConta() + "\n");
             }
             bw.close();
         }catch (IOException e){

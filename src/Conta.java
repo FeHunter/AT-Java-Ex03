@@ -35,4 +35,8 @@ public class Conta {
     public String toString() {
         return "\nConta ID: " + id + ", Nome: " + nome + ", Saldo: $" + saldo;
     }
+
+    public String formatarParaSalvarConta (){
+        return id + "," + nome + "," + saldo;
+    }
 }
