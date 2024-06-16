@@ -80,11 +80,16 @@ public class Main {
         System.out.println("\nAdicionar Conta:");
 
         int id = verificarIdExistente(contas);
+        // Mostra erro e retorna ao menu
+        if (id < 0){
+            System.out.println("Você deve inserir um número valido para o ID da conta");
+            return;
+        }
 
         System.out.print("Nome: ");
         String nome = sc.next();
 
-        double saldo = 0;
+        double saldo = -1;
         do {
             // Empedir saldo negativo.
             System.out.print("Saldo: ");
@@ -96,17 +101,23 @@ public class Main {
             }
         }while (saldo < 0);
 
-        contas.add( new Conta(id, nome, saldo) );
+        if (saldo >= 0){
+            contas.add( new Conta(id, nome, saldo) );
+        }
     }
 
     static int verificarIdExistente (List<Conta> contas){
         Scanner sc = new Scanner(System.in);
-        int id;
+        int id = -1;
         boolean igual;
         do {
             igual = false;
             System.out.print("ID:");
-            id = sc.nextInt();
+            try {
+                id = sc.nextInt();
+            }catch (Exception e){
+                break;
+            }
             for (int i =0; i < contas.size(); i++){
                 if (contas.get(i).getID() == id){
                     System.out.println("Id já existente");
@@ -152,7 +163,7 @@ public class Main {
 
         // Fazer alteração
         System.out.print("Digite o novo saldo: ");
-        double novoSaldo = 0;
+        double novoSaldo = -1;
         do {
             // Empedir saldo negativo.
             try {
@@ -163,7 +174,7 @@ public class Main {
             }
         }while (novoSaldo < 0);
         // procua pela conta atraves do ID e atualizar o saldo, somente se o saldo for maior que zero.
-        if (novoSaldo != 0){
+        if (novoSaldo != -1){
             for (int i=0; i < contas.size(); i++){
                 if (contas.get(i).getID() == id){
                     contas.get(i).setSaldo(novoSaldo);
