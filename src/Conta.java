@@ -7,6 +7,10 @@ public class Conta {
         return id;
     }
 
+    public double getSaldo (){
+        return saldo;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
