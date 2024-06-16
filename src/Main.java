@@ -28,7 +28,7 @@ public class Main {
 
     static int menu (){
         Scanner sc = new Scanner(System.in);
-        System.out.println("Menu sistema de contas");
+        System.out.println("\nMenu sistema de contas");
         System.out.println("1 - Incluir Conta");
         System.out.println("2 - Alterar Saldo");
         System.out.println("3 - Excluir Conta");
@@ -65,6 +65,18 @@ public class Main {
             System.out.println("Erro ao ler o arquivo: " + e.getMessage());
         }
         return adicionarContas;
+    }
+
+    static void salvarDadosNoArquivo (String arquivo, List<Conta> contas){
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo));
+            for (Conta conta : contas){
+                bw.write(conta.toString() + "\n");
+            }
+            bw.close();
+        }catch (IOException e){
+            System.out.println("Erro ao salvar o arquivo: " + e.getMessage());
+        }
     }
 
     static  void mostrarContas (List<Conta> contas){
