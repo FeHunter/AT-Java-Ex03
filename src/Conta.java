@@ -6,16 +6,6 @@ public class Conta {
     public int getID (){
         return id;
     }
-    public String getNome (){
-        return nome;
-    }
-    public double getSaldo (){
-        return saldo;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public void setNome(String nome) {
         this.nome = nome;
