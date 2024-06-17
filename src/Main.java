@@ -109,18 +109,15 @@ public class Main {
         }
     }
 
+    // ler saldo, id,  método
+
     static int verificarIdExistente (List<Conta> contas){
-        Scanner sc = new Scanner(System.in);
         int id = -1;
         boolean igual;
         do {
             igual = false;
             System.out.print("ID:");
-            try {
-                id = sc.nextInt();
-            }catch (Exception e){
-                break;
-            }
+            id = lerValorInteiro("Você deve digitar o Id da conta.");
             for (int i =0; i < contas.size(); i++){
                 if (contas.get(i).getID() == id){
                     System.out.println("Id já existente");
@@ -151,58 +148,54 @@ public class Main {
 
     static  void alterarSaldo (List<Conta> contas){
         Scanner sc = new Scanner(System.in);
-        int id = lerID(contas);
+        int id = lerIDExistente(contas);
 
         // Verificar tipo de operação
-        int op = 0;
-        try {
-            do {
-                System.out.println("Escolha a operação: \n1 - Depositar\n2 - Sacar");
-                op = sc.nextInt();
-            }while (op < 1 || op > 2);
-        }catch (Exception e){
-            System.out.println("Entrada invalida, você deve escolher entre as opções 1 e 2");
-            return;
-        }
+        int op = opDeAlterarSaldo();
 
         // Ler o valor a ser depositado ou sacado
-        double valor = -1;
+        System.out.print("\nDigite o valor desejado:");
+        double valor = lerValorDouble("Digite um valor valido");
+
+        // Encontra a conta e guarda em uma variavel
+        Conta conta = encontrarConta(contas, id);
+
+        // Deposito
+        if (op == 1){
+            deposito(valor, conta);
+        }
+        // Saque
+        if (op == 2) {
+            saque(valor, conta);
+        }
+    }
+
+    static int opDeAlterarSaldo (){
+        int op;
         do {
-            // Empedir saldo negativo.
-            try {
-                do {
-                    System.out.print("Digite o valor: ");
-                    valor = sc.nextDouble();
-                }while (valor < 0);
-            }catch (Exception e){
-                System.out.println("Você deve digitar o saldo em um formato valido");
-                break;
-            }
-        }while (valor < 0);
-        // procua pela conta atraves do ID e atualizar o saldo, somente se o saldo for maior que zero.
-        if (valor != -1){
-            // Encontra a conta e guarda em uma variavel
-            Conta conta = encontrarConta(contas, id);
-            // Deposito
-            if (op == 1){
-                if (valor > 0){
-                    double novoSaldo = conta.getSaldo() + valor;
-                    conta.setSaldo(novoSaldo);
-                    System.out.println("Deposito efetuado com sucesso!");
-                }else {
-                    System.out.println("Não é possivel depositar $0, tente novamente.");
-                }
-            }
-            // Saque
-            if (op == 2) {
-                if (conta.getSaldo() >= valor){
-                    double novoSaldo = conta.getSaldo() - valor;
-                    conta.setSaldo(novoSaldo);
-                    System.out.println("Saque efetuado com sucesso!");
-                }else {
-                    System.out.println("Saldo insuficiente");
-                }
-            }
+            System.out.println("Escolha a operação: \n1 - Depositar\n2 - Sacar");
+            op = lerValorInteiro("Escolha a operação: \n1 - Depositar\n2 - Sacar");
+        }while (op < 1 || op > 2);
+        return  op;
+    }
+
+    static void deposito (double valor, Conta conta){
+        if (valor > 0){
+            double novoSaldo = conta.getSaldo() + valor;
+            conta.setSaldo(novoSaldo);
+            System.out.println("Deposito efetuado com sucesso!");
+        }else {
+            System.out.println("Não é possivel depositar $0, tente novamente.");
+        }
+    }
+
+    static void saque (double valor, Conta conta){
+        if (conta.getSaldo() >= valor){
+            double novoSaldo = conta.getSaldo() - valor;
+            conta.setSaldo(novoSaldo);
+            System.out.println("Saque efetuado com sucesso!");
+        }else {
+            System.out.println("Saldo insuficiente");
         }
     }
 
@@ -220,7 +213,7 @@ public class Main {
     static void excluirConta (List<Conta> contas){
         System.out.println("Digite o ID da conta a ser excluida:");
         System.out.print("ID: ");
-        int id = lerID(contas);
+        int id = lerIDExistente(contas);
 
         // encontrar conta pelo ID
         Conta conta = encontrarConta(contas, id);
@@ -244,20 +237,44 @@ public class Main {
         return conta;
     }
 
-    static int lerID (List<Conta> contas){
-        Scanner sc = new Scanner(System.in);
+    // Valida se o ID digitado e de uma conta existente
+    static int lerIDExistente (List<Conta> contas){
         int id = 0;
         // Ler id da conta e verificar se a conta existe.
         do {
-            try{
-                System.out.println("Digite o ID de uma conta existente");
-                System.out.print("ID: ");
-                id = sc.nextInt();
-            }catch (Exception e){
-                System.out.println("Você deve inserir um número valido para o ID da conta.");
-                break;
-            }
+            System.out.print("\nDigite o ID de uma conta existente: ");
+            id = lerValorInteiro("Digite o ID de uma conta existente: ");
         }while (!verificarCotaExistente(contas, id));
         return  id;
+    }
+
+    static int lerValorInteiro (String mensagem){
+        Scanner sc = new Scanner(System.in);
+        int valor = -1;
+        do {
+            try {
+                valor = sc.nextInt();
+            }catch (Exception e){
+                System.out.println(mensagem);
+                sc.next(); // limpar entrada
+            }
+        }while (valor < 0);
+
+        return valor;
+    }
+
+    static double lerValorDouble (String mensagem){
+        Scanner sc = new Scanner(System.in);
+        double valor = -1;
+        do {
+            try {
+                valor = sc.nextInt();
+            }catch (Exception e){
+                System.out.println(mensagem);
+                sc.next(); // limpar entrada
+            }
+        }while (valor < 0);
+
+        return valor;
     }
 }
