@@ -83,41 +83,24 @@ public class Main {
         System.out.println("\nAdicionar Conta:");
 
         int id = verificarIdExistente(contas);
-        // Mostra erro e retorna ao menu
-        if (id < 0){
-            System.out.println("Você deve inserir um número valido para o ID da conta");
-            return;
-        }
 
         System.out.print("Nome: ");
         String nome = sc.next();
 
-        double saldo = -1;
-        do {
-            // Empedir saldo negativo.
-            System.out.print("Saldo: ");
-            try {
-                saldo = sc.nextDouble();
-            }catch (Exception e){
-                System.out.println("Você deve digitar o saldo em um formato valido");
-                break;
-            }
-        }while (saldo < 0);
+        System.out.print("Saldo: ");
+        double saldo = lerValorDouble("Você deve digitar o saldo em um formato valido");
 
         if (saldo >= 0){
             contas.add( new Conta(id, nome, saldo) );
         }
     }
 
-    // ler saldo, id,  método
-
     static int verificarIdExistente (List<Conta> contas){
         int id = -1;
         boolean igual;
         do {
             igual = false;
-            System.out.print("ID:");
-            id = lerValorInteiro("Você deve digitar o Id da conta.");
+            id = lerValorInteiro("ID: ", "Você deve digitar o Id da conta desejada");
             for (int i =0; i < contas.size(); i++){
                 if (contas.get(i).getID() == id){
                     System.out.println("Id já existente");
@@ -173,8 +156,7 @@ public class Main {
     static int opDeAlterarSaldo (){
         int op;
         do {
-            System.out.println("Escolha a operação: \n1 - Depositar\n2 - Sacar");
-            op = lerValorInteiro("Escolha a operação: \n1 - Depositar\n2 - Sacar");
+            op = lerValorInteiro("Escolha a operação: \n1 - Depositar\n2 - Sacar", "");
         }while (op < 1 || op > 2);
         return  op;
     }
@@ -243,19 +225,20 @@ public class Main {
         // Ler id da conta e verificar se a conta existe.
         do {
             System.out.print("\nDigite o ID de uma conta existente: ");
-            id = lerValorInteiro("Digite o ID de uma conta existente: ");
+            id = lerValorInteiro("Digite o ID de uma conta existente: ", "Digite uma valor inteiro maior que zero.");
         }while (!verificarCotaExistente(contas, id));
         return  id;
     }
 
-    static int lerValorInteiro (String mensagem){
+    static int lerValorInteiro (String smg, String erroMsg){
         Scanner sc = new Scanner(System.in);
         int valor = -1;
         do {
             try {
+                System.out.print("\n" + smg);
                 valor = sc.nextInt();
             }catch (Exception e){
-                System.out.println(mensagem);
+                System.out.println(erroMsg);
                 sc.next(); // limpar entrada
             }
         }while (valor < 0);
