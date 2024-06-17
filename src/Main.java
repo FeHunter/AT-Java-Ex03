@@ -188,6 +188,7 @@ public class Main {
                 if (valor > 0){
                     double novoSaldo = conta.getSaldo() + valor;
                     conta.setSaldo(novoSaldo);
+                    System.out.println("Deposito efetuado com sucesso!");
                 }else {
                     System.out.println("Não é possivel depositar $0, tente novamente.");
                 }
@@ -197,6 +198,7 @@ public class Main {
                 if (conta.getSaldo() >= valor){
                     double novoSaldo = conta.getSaldo() - valor;
                     conta.setSaldo(novoSaldo);
+                    System.out.println("Saque efetuado com sucesso!");
                 }else {
                     System.out.println("Saldo insuficiente");
                 }
